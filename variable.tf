@@ -31,7 +31,7 @@ variable "waf_acl_id" { // application only
 }
 
 variable "https_only" {
-  default = true
+  default = false
 }
 
 # https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html
@@ -50,7 +50,7 @@ variable "certificate_arn" {
 # ECS
 variable "ports" {
   type    = list(number)
-  default = [80]
+  default = [443, 80]
 }
 
 variable "autoscaling_group_name" {

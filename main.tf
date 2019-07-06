@@ -30,11 +30,11 @@ resource "aws_wafregional_web_acl_association" "main" {
 }
 
 resource "aws_lb_target_group" "main" {
-  count    = length(var.ports)
+  count    = length(local.ports_no_https)
   name     = "${local.name}-target-group"
   vpc_id   = var.vpc_id
   protocol = "HTTP"
-  port     = var.ports[count.index]
+  port     = local.ports_no_https[count.index]
 
   health_check {
     path    = "/health"

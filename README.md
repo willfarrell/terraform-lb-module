@@ -27,6 +27,7 @@ module "waf" {
 }
 
 # ALB
+# ( 80 -> 443 ) => ( 80 )
 module "alb" {
   source                 = "git@github.com:willfarrell/terraform-lb-module?ref=v0.0.1"
   type                   = "application"
@@ -35,7 +36,8 @@ module "alb" {
   vpc_id                 = data.terraform_remote_state.vpc.vpc_id
 
   private_subnet_ids     = [data.terraform_remote_state.vpc.private_subnet_ids]
-
+  
+  https_only             = true
   waf_acl_id             = module.waf.id
   certificate_arn        = data.aws_acm_certificate.main.arn
   # ECS
@@ -45,6 +47,7 @@ module "alb" {
 }
 
 # NLB
+# ( 5000, 3000 ) => ( 5000, 3000 )
 module "nlb" {
   source                 = "git@github.com:willfarrell/terraform-lb-module?ref=v0.0.1"
   type                   = "network"
@@ -77,7 +80,7 @@ output "alb_target_group_arn" {
 - **https_only:** Force HTTPS [Default: true]
 - **ssl_policy:** TLS policy to enforce. See [docs](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html) for complete list [Default: `ELBSecurityPolicy-TLS-1-1-2017-01`]
 - **certificate_arn:** ARN of AWS certificate, add `443` port forwarding
-- **ports:** ECS ports to forward to. First on in the list will be use for `443`. [Default: `[ 80 ]`]
+- **ports:** ECS ports to forward to. First, non-`443` on in the list will be use for `443` forwarding. [Default: `[ 443, 80 ]`]
 - **autoscaling_group_name:** ECS auto-scaling group name
 - **security_group_id:** ECS security group id
 

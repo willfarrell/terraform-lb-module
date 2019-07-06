@@ -5,9 +5,10 @@ module "defaults" {
 }
 
 locals {
-  account_id = module.defaults.account_id
-  name       = "${module.defaults.name}-${substr(var.type, 0, 1)}lb"
-  tags       = module.defaults.tags
+  account_id     = module.defaults.account_id
+  name           = "${module.defaults.name}-${substr(var.type, 0, 1)}lb"
+  tags           = module.defaults.tags
+  ports_no_https = concat(slice(var.ports, 0, index(var.ports, 443), length(var.ports)), slice(var.ports, index(var.ports, 443)+1, length(var.ports)))
 
   logging_bucket = "${var.logging_bucket != "" ? var.logging_bucket : "${module.defaults.name}-${terraform.workspace}-${module.default.region}-logs"}}"
 }
