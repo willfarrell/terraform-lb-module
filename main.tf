@@ -16,10 +16,10 @@ resource "aws_lb" "main" {
   }
 
   tags = merge(
-    local.tags,
-    {
-      "Name" = local.name
-    }
+  local.tags,
+  {
+    "Name" = local.name
+  }
   )
 }
 
@@ -30,7 +30,7 @@ resource "aws_wafregional_web_acl_association" "main" {
 }
 
 resource "aws_lb_target_group" "main" {
-  count = var.ports
+  count    = length(var.ports)
   name     = "${local.name}-target-group"
   vpc_id   = var.vpc_id
   protocol = "HTTP"
@@ -42,10 +42,10 @@ resource "aws_lb_target_group" "main" {
   }
 
   tags = merge(
-    local.tags,
-    {
-      "Name" = local.name
-    }
+  local.tags,
+  {
+    "Name" = local.name
+  }
   )
 }
 
@@ -64,11 +64,11 @@ resource "aws_security_group" "main" {
   }
 
   tags = merge(
-    local.tags,
-    {
-      "Name"        = local.name
-      "Description" = "Access to the ${var.type} LB"
-    }
+  local.tags,
+  {
+    "Name"        = local.name
+    "Description" = "Access to the ${var.type} LB"
+  }
   )
 }
 

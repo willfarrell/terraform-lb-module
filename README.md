@@ -77,7 +77,7 @@ output "alb_target_group_arn" {
 - **https_only:** Force HTTPS [Default: true]
 - **ssl_policy:** TLS policy to enforce. See [docs](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html) for complete list [Default: `ELBSecurityPolicy-TLS-1-1-2017-01`]
 - **certificate_arn:** ARN of AWS certificate, add `443` port forwarding
-- **ports:** ECS ports to forward to. [Default: `[ 80 ]`]
+- **ports:** ECS ports to forward to. First on in the list will be use for `443`. [Default: `[ 80 ]`]
 - **autoscaling_group_name:** ECS auto-scaling group name
 - **security_group_id:** ECS security group id
 
