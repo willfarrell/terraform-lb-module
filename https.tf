@@ -1,6 +1,6 @@
 # HTTPS
 resource "aws_lb_listener" "https" {
-  count             = contains(var.ports, 443)
+  count             = contains(var.ports, 443) ? 1 : 0
   load_balancer_arn = aws_lb.main.arn
   protocol          = "HTTPS"
   port              = "443"
