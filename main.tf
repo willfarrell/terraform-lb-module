@@ -24,7 +24,7 @@ resource "aws_lb" "main" {
 }
 
 resource "aws_wafregional_web_acl_association" "main" {
-  count        = (var.waf_acl_id == "" && var.type == "application") ? 0 : 1
+  count        = (var.waf_acl_id == "") ? 0 : 1
   resource_arn = aws_lb.main.arn
   web_acl_id   = var.waf_acl_id
 }
