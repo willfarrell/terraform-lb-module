@@ -10,6 +10,6 @@ locals {
   tags           = module.defaults.tags
   ports_no_https = contains(var.ports, 443) ? concat(slice(var.ports, 0, index(var.ports, 443)), slice(var.ports, (index(var.ports, 443)+1), length(var.ports))) : var.ports
 
-  logging_bucket = "${var.logging_bucket != "" ? var.logging_bucket : "${module.defaults.name}-${terraform.workspace}-${module.defaults.region}-logs"}"
+  logging_bucket = var.logging_bucket != "" ? var.logging_bucket : "${module.defaults.name}-${terraform.workspace}-${module.defaults.region}-logs"
 }
 
