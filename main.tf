@@ -2,8 +2,9 @@ resource "aws_lb" "main" {
   name               = local.name
   internal           = var.internal
   load_balancer_type = var.type
+  #ip_address_type    = var.internal ? "ipv4" : "dualstack" #  You must specify subnets with an associated IPv6 CIDR block.
 
-  subnets = var.private_subnet_ids
+  subnets = var.subnet_ids
 
   security_groups = [
     aws_security_group.main.id,
@@ -11,15 +12,15 @@ resource "aws_lb" "main" {
 
   access_logs {
     bucket  = local.logging_bucket
-    prefix  = "AWSLogs/${local.account_id}/LB/${local.name}/"
+    prefix  = "Logs/${local.account_id}/LB/${local.name}"
     enabled = true
   }
 
   tags = merge(
-  local.tags,
-  {
-    "Name" = local.name
-  }
+    local.tags,
+    {
+      Name = local.name
+    }
   )
 }
 
@@ -36,16 +37,16 @@ resource "aws_lb_target_group" "main" {
   protocol = "HTTP"
   port     = local.ports_no_https[count.index]
 
-  health_check {
-    path    = "/health"
-    matcher = 200
-  }
+  #health_check {
+  #  path    = "/health"
+  #  matcher = 200
+  #}
 
   tags = merge(
-  local.tags,
-  {
-    "Name" = local.name
-  }
+    local.tags,
+    {
+      Name = local.name
+    }
   )
 }
 
@@ -64,11 +65,11 @@ resource "aws_security_group" "main" {
   }
 
   tags = merge(
-  local.tags,
-  {
-    "Name"        = local.name
-    "Description" = "Access to the ${var.type} LB"
-  }
+    local.tags,
+    {
+      Name        = local.name
+      Description = "Access to the ${var.type} LB"
+    }
   )
 }
 

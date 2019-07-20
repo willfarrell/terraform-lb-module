@@ -74,7 +74,7 @@ output "alb_target_group_arn" {
 
 ## Input
 - **vpc_id:** vpc id
-- **private_subnet_ids:** array of private subnet ids
+- **subnet_ids:** array of subnet ids, public for ALB, private for NLB
 - **waf_acl_id:** Regional WAF ACL ID
 - **internal:** Is an internal LB or not [Default: false]
 - **https_only:** Force HTTPS [Default: true]

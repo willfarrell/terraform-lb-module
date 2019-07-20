@@ -1,5 +1,5 @@
 variable "type" {
-  type = string
+  type    = string
   default = "application" // application, network
 }
 
@@ -15,13 +15,13 @@ variable "vpc_id" {
   type = string
 }
 
-variable "private_subnet_ids" {
+variable "subnet_ids" {
   type    = list(string)
   default = []
 }
 
 variable "internal" {
-  type = bool
+  type    = bool
   default = true
 }
 

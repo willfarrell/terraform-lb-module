@@ -1,9 +1,9 @@
 # HTTP
 resource "aws_lb_listener" "http_redirect" {
-  count             = var.https_only ? length(var.ports) : 0
+  count             = var.https_only ? length(local.ports_no_https) : 0
   load_balancer_arn = aws_lb.main.arn
   protocol          = "HTTP"
-  port              = var.ports[count.index]
+  port              = local.ports_no_https[count.index]
 
   default_action {
     type = "redirect"
@@ -21,7 +21,7 @@ resource "aws_lb_listener" "port_forward" {
   load_balancer_arn = aws_lb.main.arn
   protocol          = "HTTP"
 
-  port              = local.ports_no_https[count.index]
+  port = local.ports_no_https[count.index]
 
   default_action {
     target_group_arn = aws_lb_target_group.main[count.index].arn
@@ -30,8 +30,9 @@ resource "aws_lb_listener" "port_forward" {
 }
 
 resource "aws_security_group_rule" "port" {
-  count             = length(var.ports)
+  count             = length(local.ports_no_https)
   security_group_id = aws_security_group.main.id
+
 
   cidr_blocks = [
     "0.0.0.0/0",
@@ -39,7 +40,7 @@ resource "aws_security_group_rule" "port" {
 
   type      = "ingress"
   protocol  = "tcp"
-  to_port   = var.ports[count.index]
-  from_port = var.ports[count.index]
+  to_port   = local.ports_no_https[count.index]
+  from_port = local.ports_no_https[count.index]
 }
 
