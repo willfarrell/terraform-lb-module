@@ -40,7 +40,10 @@ resource "aws_lb_target_group" "main" {
   health_check {
     enabled = var.health_check_enabled
     path = var.health_check_path
+    timeout = var.health_check_timeout
     interval = var.health_check_interval
+    healthy_threshold = var.health_check_healthy_threshold
+    unhealthy_threshold = var.health_check_unhealthy_threshold
     matcher = var.health_check_matcher
   }
 
