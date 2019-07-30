@@ -79,8 +79,8 @@ variable "health_check_unhealthy_threshold" {
 }
 
 variable "health_check_matcher" {
-  type = number
-  default = 200
+  type = string
+  default = "200"
 }
 
 # ECS
