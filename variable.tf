@@ -47,6 +47,42 @@ variable "certificate_arn" {
   type = string
 }
 
+# Health Check
+variable "health_check_enabled" {
+  type = bool
+  default = true
+}
+
+variable "health_check_interval" {
+  type = number
+  default = 30
+}
+
+variable "health_check_path" {
+  type = string
+  default = "/"
+}
+
+variable "health_check_timeout" {
+  type = number
+  default = 5
+}
+
+variable "health_check_healthy_threshold" {
+  type = number
+  default = 3
+}
+
+variable "health_check_unhealthy_threshold" {
+  type = number
+  default = 3
+}
+
+variable "health_check_matcher" {
+  type = number
+  default = 200
+}
+
 # ECS
 variable "ports" {
   type    = list(number)
